@@ -1,0 +1,12 @@
+spam	diaryofagameaddict.com
+spam	espdesign.com.au
+spam	iamagameaddict.com
+spam	kalantzis.net
+spam	slightlyoffcenter.net
+spam	toddscarwash.com
+spam	tubemoviez.com
+spam	ipl.hk
+spam	crackspider.us/toolbar/install.php?pack=exe
+spam  pos-kupang.com/
+spam  beemp3.com/download.php?file=4108983&song=Spun
+ham  beemp3.com/download.php?file=4253972&song=Touch+Me

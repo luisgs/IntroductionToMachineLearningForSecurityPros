@@ -2,13 +2,20 @@
 from sklearn.mixture import GaussianMixture
 import numpy as np
 from scipy.sparse import lil_matrix, vstack
-from string import digits, punctuation, whitespace, ascii_letters
+from string import digits, punctuation, whitespace, ascii_letters #, whitespace
+    # puntuation includes '.', '/', '?', '=' and '_'  as well as !"#$%&'()*+, -./:;<=>?@[\]^_`{|}~
+
+unsafe = " <>{}[]|^%"
+reserved = "&$+,/:;=?@#!*()"
+unreserved = "-_.~"
 
 character_classes = [
     ascii_letters,
     digits,
-    punctuation,
-    whitespace
+    unsafe,
+    reserved + unreserved
+#   punctuation,
+#    whitespace
 ]
 
 
@@ -116,14 +123,14 @@ if __name__ == "__main__":
         p_ham = 100.0 * float(cluster_labels[key][0]) / float(total_samples)
         p_spam = 100.0 * float(cluster_labels[key][1]) / float(total_samples)
 
-        print "Cluster {0} - Total Samples: {1} - Percent Ham: {2} - Percent Spam: {3}".format(
+        print("Cluster {0} - Total Samples: {1} - Percent GOOD: {2} - Percent BAD: {3}".format(
             key,
             total_samples,
-            p_ham,
-            p_spam
-        )
+            round(p_ham, 2),
+            round(p_spam, 2)
+        ))
 
     if print_clusters:
         for key in sorted(clusters.keys()):
             for s in clusters[key]:
-                print "Cluster", key, " - ", s
+                print("Cluster", key, " - ", s)

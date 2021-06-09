@@ -1,15 +1,23 @@
 from scipy.sparse import lil_matrix, vstack
-import cPickle as pickle
+import pickle as pickle
 import sys
 from string import digits, punctuation, whitespace, ascii_letters
 
+    # puntuation includes '.', '/', '?', '=' and '_'  as well as !"#$%&'()*+, -./:;<=>?@[\]^_`{|}~
+
+unsafe = " <>{}[]|^%"
+reserved = "&$+,/:;=?@#!*()%"
+unreserved = "-_.~"
 
 character_classes = [
     ascii_letters,
     digits,
-    punctuation,
-    whitespace
+    unsafe,
+    reserved + unreserved
+#   punctuation,
+#    whitespace
 ]
+
 
 
 def get_character_to_character_transitions(sentences):
@@ -52,19 +60,19 @@ def vectorize_sentence(sentence):
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
-        print "python classify_model.py 'string to classify'"
+        print("python classify_model.py 'string to classify'")
         sys.exit(0)
 
     to_classify = " ".join(sys.argv[1:])
 
-    with open("naive_bayes.pkl", "r") as f:
+    with open("naive_bayes.pkl", "rb") as f:
         classifier = pickle.load(f)
 
     vector = vectorize_sentence(to_classify)
     prediction = classifier.predict(vector)
     proba = classifier.predict_proba(vector)
 
-    print "[ham] ", proba[0][0]
-    print "[spam] ", proba[0][1]
+    print("[GOOD] ", proba[0][0])
+    print("[BAD] ", proba[0][1])
 
-    print "Prediction:", "spam" if prediction == 1 else "ham"
+    print("Prediction:", "BAD" if prediction == 1 else "GOOD")
