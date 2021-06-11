@@ -1,5 +1,6 @@
 import csv
 from urllib.parse import urlparse
+import ssdeep
 
 # This small script modifies our new Dataset and transform it
 # so we can reuse code from our exercise and textbook
@@ -25,7 +26,7 @@ with open('data.csv') as csv_file:
             if not (url.startswith('//') or url.startswith('http://') or url.startswith('https://')):
                 url = '//' + url
 
-            f.write('{"code": 200, "content_ssdeep": "12345", "base_url": "' + urlparse(url).netloc + '", "label": "' + row[1] + '", "url": "' + row[0] + '", "offset": "' + row[0].rsplit('/', 1)[-1] + '"}\n')
+            f.write('{"code": 200, "content_ssdeep": "'+ ssdeep.hash(row[0]) +'", "base_url": "' + urlparse(url).netloc + '", "label": "' + row[1] + '", "url": "' + row[0] + '", "offset": "' + row[0].rsplit('/', 1)[-1] + '"}\n')
             line_count += 1
     print(f'Processed {line_count} lines.')
     print(f'Number of GOOD URLs'+str(good))
